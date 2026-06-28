@@ -1,16 +1,20 @@
 from fastapi import APIRouter
 
+from services.gateway_service import GatewayService
+
 router = APIRouter(
     prefix="/gateway",
     tags=["Gateway"]
 )
 
+gateway_service = GatewayService()
 
-@router.get("/")
-def gateway():
 
-    return {
+@router.get("/{service}")
+def gateway(
+    service: str
+):
 
-        "message": "Gateway ready"
-
-    }
+    return gateway_service.forward(
+        service
+    )
